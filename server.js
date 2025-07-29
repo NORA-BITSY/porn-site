@@ -2,6 +2,7 @@ const express = require('express');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const axios = require('axios');
+require('dotenv').config();
 
 const methodOverride = require('method-override');
 

@@ -1,7 +1,13 @@
 var mongoose = require('mongoose');
+require('dotenv').config();
 
 mongoose.Promise = global.Promise;
-// mongoose.connect('mongodb://127.0.0.1/public-porn-db');
-mongoose.connect('mongodb://thedirtydeveloper:buddy3907@ds151853.mlab.com:51853/porn');
+
+// Use environment variable for MongoDB connection
+const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ultimate-porn-space';
+mongoose.connect(mongoUri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+});
 
 module.exports = {mongoose};
