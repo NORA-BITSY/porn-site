@@ -5,7 +5,7 @@
 server {
     listen 80;
     listen [::]:80;
-    server_name porn.realproductpat.com www.porn.realproductpat.com;
+    server_name porn.realproductpat.com;
 
     # Allow Let's Encrypt challenges
     location /.well-known/acme-challenge/ {
@@ -13,29 +13,29 @@ server {
         allow all;
     }
 
-    # Redirect all other requests to HTTPS (uncomment after SSL setup)
-    # return 301 https://$server_name$request_uri;
+    # Redirect all other requests to HTTPS
+    return 301 https://$server_name$request_uri;
 
-    # Temporary location for initial setup (remove after SSL is working)
-    location / {
-        proxy_pass http://127.0.0.1:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_cache_bypass $http_upgrade;
-        proxy_read_timeout 86400;
-    }
+    # Temporary location for initial setup (commented out after SSL is working)
+    # location / {
+    #     proxy_pass http://127.0.0.1:3000;
+    #     proxy_http_version 1.1;
+    #     proxy_set_header Upgrade $http_upgrade;
+    #     proxy_set_header Connection 'upgrade';
+    #     proxy_set_header Host $host;
+    #     proxy_set_header X-Real-IP $remote_addr;
+    #     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    #     proxy_set_header X-Forwarded-Proto $scheme;
+    #     proxy_cache_bypass $http_upgrade;
+    #     proxy_read_timeout 86400;
+    # }
 }
 
 # HTTPS configuration (will be enabled after SSL cert is obtained)
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name porn.realproductpat.com www.porn.realproductpat.com;
+    server_name porn.realproductpat.com;
 
     # SSL certificate paths (will be configured by Certbot)
     ssl_certificate /etc/letsencrypt/live/porn.realproductpat.com/fullchain.pem;

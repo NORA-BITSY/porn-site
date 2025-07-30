@@ -53,7 +53,7 @@ echo -e "${YELLOW}⚙️  Configuring Nginx...${NC}"
 # Create webroot directory for Let's Encrypt challenges
 mkdir -p $WEBROOT
 
-# Copy our Nginx configuration
+# Copy our Nginx configuration 
 cp /var/www/porn-site/sites-available/porn.realproductpat.com /etc/nginx/sites-available/
 
 # Enable the site
