@@ -1,0 +1,89 @@
+:root {
+    --primary-color: #ff4081;
+    --secondary-color: #f50057;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-color: #ffffff;
+    --text-muted-color: #a0a0a0;
+    --border-radius: 12px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --font-family: 'Poppins', sans-serif;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.bg-gradient {
+    background: linear-gradient(135deg, var(--background-color), #000000);
+}
+
+.card {
+    background-color: var(--surface-color);
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(255, 64, 129, 0.2);
+}
+
+.card-img-top {
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover .card-img-top {
+    opacity: 1;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.badge {
+    font-weight: 600;
+}
+
+.form-control {
+    background-color: var(--surface-color);
+    border-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+.form-control:focus {
+    background-color: var(--surface-color);
+    border-color: var(--secondary-color);
+    color: var(--text-color);
+    box-shadow: 0 0 0 0.25rem rgba(245, 0, 87, 0.25);
+}
+
+.text-muted {
+    color: var(--text-muted-color) !important;
+}
+
+.transition-all {
+    transition: all 0.3s ease-in-out;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

@@ -1,2 +1,14 @@
-<a href="/{{back}}"><button type="button" class="btn btn-primary btn-lg">Back page</button></a>
-<a href="/{{next}}"><button type="button" class="btn btn-primary btn-lg">Next page</button></a>
+<nav aria-label="Pagination">
+    <ul class="pagination pagination-lg">
+        <li class="page-item {{#unless back}}disabled{{/unless}}">
+            <a class="page-link" href="/{{back}}" aria-label="Previous">
+                <span aria-hidden="true">&laquo; Back</span>
+            </a>
+        </li>
+        <li class="page-item {{#unless next}}disabled{{/unless}}">
+            <a class="page-link" href="/{{next}}" aria-label="Next">
+                <span aria-hidden="true">Next &raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

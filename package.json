@@ -12,7 +12,7 @@
     "node": "8.x"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^1.11.0",
     "body-parser": "^1.18.3",
     "dotenv": "^6.1.0",
     "express": "^4.16.3",
@@ -22,15 +22,15 @@
     "lodash": "^4.17.10",
     "method-override": "^2.3.10",
     "mongodb": "^3.0.10",
-    "mongoose": "^5.1.4",
-    "netlify-lambda": "^1.0.3",
+    "mongoose": "^8.16.5",
+    "netlify-lambda": "^0.4.0",
     "serverless-http": "^1.8.0"
   },
   "devDependencies": {
-    "gulp": "^4.0.0",
-    "html-loader": "^0.5.5",
-    "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.25.1",
+    "gulp": "^5.0.1",
+    "html-loader": "^5.1.0",
+    "html-webpack-plugin": "^5.6.3",
+    "webpack": "^5.101.0",
     "webpack-cli": "^3.1.2",
     "webpack-node-externals": "^1.7.2"
   }
