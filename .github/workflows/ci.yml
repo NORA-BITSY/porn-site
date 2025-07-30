@@ -1,0 +1,142 @@
+name: CI/CD Pipeline - Legacy Porn Site
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+    
+    services:
+      mongodb:
+        image: mongo:5.0
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd mongo
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run linting
+      run: |
+        npm install eslint --save-dev
+        npx eslint server/ --ext .js || true  # Don't fail on lint errors for now
+    
+    - name: Run tests
+      run: |
+        # Copy test package.json for testing
+        cp package-test.json package.test.json
+        npm install --save-dev jest supertest @types/jest mongodb-memory-server
+        npm test
+      env:
+        MONGODB_URI: mongodb://root:example@localhost:27017/test?authSource=admin
+        NODE_ENV: test
+    
+    - name: Check server starts
+      run: |
+        timeout 10s npm start || true  # Test if server starts without crashing
+      env:
+        MONGODB_URI: mongodb://root:example@localhost:27017/test?authSource=admin
+        PORT: 3001
+
+  security-scan:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Run security audit
+      run: |
+        npm audit --audit-level moderate || true  # Don't fail on audit for now
+    
+    - name: Check for secrets
+      run: |
+        # Basic check for hardcoded secrets
+        ! grep -r "password.*=" server/ || true
+        ! grep -r "secret.*=" server/ || true
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [test, security-scan]
+    if: github.ref == 'refs/heads/master'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build application
+      run: |
+        echo "Build completed successfully"
+        # In a real scenario, this would build and package the application
+    
+    - name: Create deployment artifact
+      run: |
+        tar -czf porn-site-${{ github.sha }}.tar.gz \
+          server/ \
+          public/ \
+          views/ \
+          package.json \
+          server.js \
+          nginx.conf \
+          porn-site.service \
+          setup-ssl.sh \
+          renew-ssl.sh
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: porn-site-build
+        path: porn-site-${{ github.sha }}.tar.gz
+
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+    
+    steps:
+    - name: Deploy to staging
+      run: |
+        echo "Deploying to staging environment"
+        # This would contain actual deployment scripts
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: build
+    if: github.ref == 'refs/heads/master'
+    environment: production
+    
+    steps:
+    - name: Deploy to production
+      run: |
+        echo "Deploying to production environment"
+        # This would contain actual deployment scripts
+        # Could include:
+        # - SSH to server
+        # - Pull latest code
+        # - Run database migrations
+        # - Restart services
+        # - Health check

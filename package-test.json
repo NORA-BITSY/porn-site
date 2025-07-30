@@ -1,0 +1,26 @@
+{
+  "name": "ultimate-porn-space-tests",
+  "version": "1.0.0",
+  "description": "Test configuration for Ultimate Porn Space",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "@types/jest": "^29.5.5",
+    "mongodb-memory-server": "^9.1.1"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "testMatch": ["<rootDir>/tests/**/*.test.js"],
+    "collectCoverageFrom": [
+      "server/**/*.js",
+      "!server/db/mongoose.js",
+      "!**/node_modules/**"
+    ]
+  }
+}
